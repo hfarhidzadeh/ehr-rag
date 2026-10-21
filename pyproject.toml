@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ehr-rag"
+version = "0.1.0"
+description = "Retrieval-augmented QA over synthetic EHR data (educational)"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy<2",
+    "pandas",
+    "scikit-learn",
+    "joblib",
+    "chromadb",
+    "rank_bm25",
+    "anthropic",
+]
+
+[project.optional-dependencies]
+# last versions that support torch 2.2.2 (the final PyTorch release for Intel Macs)
+minilm = ["torch==2.2.2", "sentence-transformers==3.4.1", "transformers==4.46.3"]
+app = ["streamlit", "plotly"]
+notebook = ["jupyter", "nbconvert", "ipykernel", "matplotlib"]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: needs the MiniLM model download / torch"]
+addopts = "-m 'not slow'"
